@@ -25,8 +25,8 @@ var Game = React.createClass({
   
   render: function() {
     return (
-      <div>
-        <h1>{this.state.level}</h1>
+      <div className="ma-container">
+        <h1 className="ma-level">{this.state.level}</h1>
         <Board complete={this.completedLevel} level={this.state.level}/>
       </div>
     )

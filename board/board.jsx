@@ -6,10 +6,6 @@ var Board = React.createClass({
   },
 
   createCards: function(level) {
-    // var level = this.props.level;
-
-    console.log(level);
-
     var numberOfCards = level + 2,
       cards = {};
 
@@ -106,9 +102,6 @@ var Board = React.createClass({
   
   componentWillReceiveProps: function(nextProps) {
     if (this.props.level != nextProps.level) {
-        console.log(this.props.level)
-        console.log(nextProps);
-
         this.setState({
         cards: this.createCards(nextProps.level)
       });
@@ -116,12 +109,15 @@ var Board = React.createClass({
   },
 
   render: function() {
+
     return (
       <div>
         {Object.keys(this.state.cards).map((id) => {
           card = this.state.cards[id];
+          cssClass = 'ma-card ma-card-' + card.value;
+
           return (
-            <button onClick={this.cardClicked(card)}>
+            <button className={cssClass} onClick={this.cardClicked(card)}>
               {card.value} { card.isMatched ? 'Matched' : card.isTurned ? 'Turned' : 'Not turned' }
             </button>
           )
