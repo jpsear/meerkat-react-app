@@ -87,7 +87,6 @@ var Board = React.createClass({
             checkIfMatched = true;
           }
         }
-
         this.setState({
           cards: updatedCards
         });
@@ -114,12 +113,24 @@ var Board = React.createClass({
       <div>
         {Object.keys(this.state.cards).map((id) => {
           card = this.state.cards[id];
-          cssClass = 'ma-card ma-card-' + card.value;
+          cssClass = 'card ma-card-' + card.value;
+          flipContainer = 'flip-container';
+          back = 'back';
+          front = 'front';
 
           return (
-            <button className={cssClass} onClick={this.cardClicked(card)}>
+            <section className={ card.isMatched ? 'flip' + ' ' + cssClass : card.isTurned ? 'flip' + ' ' + cssClass : 'not-flipped' + ' ' + cssClass } 
+            onClick={this.cardClicked(card)}>
               {card.value} { card.isMatched ? 'Matched' : card.isTurned ? 'Turned' : 'Not turned' }
-            </button>
+              <div className={flipContainer}>
+                <div className={back}>
+                    <span>
+                      <b>Compare the meerkat</b>
+                    </span>
+                </div>
+                <div className={front}></div>
+              </div>
+            </section>
           )
         })}
       </div>

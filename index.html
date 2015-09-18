@@ -9,18 +9,24 @@
     <![endif]-->  
     <!--[if !IE]><!-->
     <link rel="stylesheet" type="text/css" href="https://cdn.comparethemarket.com/ui-framework/assets/136/css/ctm-responsive.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-
+    <script type="text/javascript" src="https://cdn.comparethemarket.com/ui-framework/assets/136/javascripts/uglified/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.comparethemarket.com/ui-framework/assets/136/javascripts/uglified/modernizr.min.js"></script>
   </head>
   <body>
-    <div id="ma-app"></div>
-
+    <header id="page-header" class="main-header" role="banner">
+        <h1>
+            <a id="ctm-logo" href="http://www.comparethemarket.com/">comparethemarket.com</a>
+        </h1>
+    </header>
+    <main>
+      <div id="ma-app"></div>
+    </main>
     <script type="text/jsx" src="game/game.jsx"></script>
     <script type="text/jsx" src="board/board.jsx"></script>
-    <script type="text/jsx" src="card/card.jsx"></script>
 
     <script type="text/jsx">
     React.render( <Game />, document.getElementById("ma-app") );
