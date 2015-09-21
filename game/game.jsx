@@ -1,12 +1,13 @@
 var Game = React.createClass({
   
+  timeout: 750,
+  final: 3,
+  
   getInitialState: function() {
     return ({
       level: 1,
       turns: 0,
-      best: 0,
-      levelTimeout: 750,
-      levelFinal: 2
+      best: 0
     })
   },
   
@@ -19,28 +20,29 @@ var Game = React.createClass({
   },
   
   onLevel: function() {
-    if ( this.state.level === this.state.levelFinal ) return this.onWin();
+    if ( this.state.level === this.final ) return this.onWin();
     var _level = this.state.level + 1;
     setTimeout(() => {
       this.setState({
         level: _level
       });
-    }, this.state.levelTimeout);
+    }, this.timeout);
   },
   
   onWin: function() {
-    var _best = (this.state.best === 0 || this.state.best >= this.state.turns ? this.state.turns : this.state.best);
-    
-    setTimeout(() => {
-      alert('You completed the game! Play again?');
+    return setTimeout(() => {
+      alert('You completed the game in ' + this.state.turns + ' turns! Play again?');
+      
+      var _level = 1;
+      var _turns = 0;
+      var _best = (this.state.best === 0 || this.state.best > this.state.turns ? this.state.turns : this.state.best);
+      
       this.setState({
-        level: 1,
-        turns: 0,
+        level: _level,
+        turns: _turns,
         best: _best
       });
-    }, this.state.levelTimeout);
-    
-    return;
+    }, this.timeout);
   },
   
   render: function() {
