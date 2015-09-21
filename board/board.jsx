@@ -2,7 +2,8 @@ var Board = React.createClass({
   
   propTypes:{
     level: React.PropTypes.number,
-    complete : React.PropTypes.func
+    onTurn: React.PropTypes.func,
+    onLevel: React.PropTypes.func
   },
 
   createCards: function(level) {
@@ -77,6 +78,9 @@ var Board = React.createClass({
         updatedCards[chosenCard.id].isTurned = true;
 
         if(turnedCard) {
+          
+          this.props.onTurn();
+        
           updatedCards[turnedCard.id].isTurned = false;
           updatedCards[chosenCard.id].isTurned = false;
 
@@ -93,7 +97,7 @@ var Board = React.createClass({
 
         if(checkIfMatched) {
           if(this.checkAllMatched()) {
-            this.props.complete();
+            this.props.onLevel();
           }
         }
       } 
