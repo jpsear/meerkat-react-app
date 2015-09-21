@@ -50,6 +50,8 @@ var Board = React.createClass({
         var temp = cards[k];
         cards[k] = cards[n];
         cards[n] = temp;
+        cards[k].id = k;
+        cards[n].id = n;
     }
     
     return cards;
@@ -63,7 +65,7 @@ var Board = React.createClass({
 
     Object.keys(cards).map((id) => {
       var card = cards[id];
-      if(card.isTurned && card.id !== chosenCard.id){
+      if (card.isTurned && card.id !== chosenCard.id) {
         turnedCard = card;
       }
     });
@@ -78,41 +80,46 @@ var Board = React.createClass({
     }).length === 0;
   },
   
-  cardClicked: function(chosenCard) {
-      return () => {
-        if(chosenCard.isMatched) return;
+  cardClicked: function(id) {
+  
+    return () => {
+      
+      var chosenCard = this.state.cards[id];
+    
+      if (chosenCard.isMatched) return;
 
-        var checkIfMatched = false;
+      var checkIfMatched = false;
 
-        var turnedCard = this.compareCards(chosenCard);
+      var turnedCard = this.compareCards(chosenCard);
 
-        var updatedCards = Object.assign({}, this.state.cards);
-        updatedCards[chosenCard.id].isTurned = true;
+      var updatedCards = Object.assign({}, this.state.cards);
+      updatedCards[chosenCard.id].isTurned = true;
 
-        if(turnedCard) {
-          
-          this.props.onTurn();
+      if(turnedCard) {
         
-          updatedCards[turnedCard.id].isTurned = false;
-          updatedCards[chosenCard.id].isTurned = false;
+        this.props.onTurn();
+      
+        updatedCards[turnedCard.id].isTurned = false;
+        updatedCards[chosenCard.id].isTurned = false;
 
-          if(turnedCard.value === chosenCard.value) {
-            updatedCards[turnedCard.id].isMatched = true;
-            updatedCards[chosenCard.id].isMatched = true;
+        if(turnedCard.value === chosenCard.value) {
+          updatedCards[turnedCard.id].isMatched = true;
+          updatedCards[chosenCard.id].isMatched = true;
 
-            checkIfMatched = true;
-          }
+          checkIfMatched = true;
         }
-        this.setState({
-          cards: updatedCards
-        });
+      }
+      
+      this.setState({
+        cards: updatedCards
+      });
 
-        if(checkIfMatched) {
-          if(this.checkAllMatched()) {
-            this.props.onLevel();
-          }
+      if(checkIfMatched) {
+        if(this.checkAllMatched()) {
+          this.props.onLevel();
         }
-      } 
+      }
+    } 
   },
   
   componentWillReceiveProps: function(nextProps) {
@@ -136,7 +143,7 @@ var Board = React.createClass({
 
           return (
             <section className={ card.isMatched ? 'flip' + ' ' + cssClass : card.isTurned ? 'flip' + ' ' + cssClass : 'not-flipped' + ' ' + cssClass } 
-            onClick={this.cardClicked(card)}>
+            onClick={this.cardClicked(card.id)}>
               {card.value} { card.isMatched ? 'Matched' : card.isTurned ? 'Turned' : 'Not turned' }
               <div className={flipContainer}>
                 <div className={back}>
