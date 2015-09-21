@@ -5,14 +5,20 @@ var Board = React.createClass({
     onTurn: React.PropTypes.func,
     onLevel: React.PropTypes.func
   },
+  
+  getInitialState: function() {
+    return ({
+      level: this.props.level,
+      cards: this.generateCards(this.props.level)
+    })
+  },
 
-  createCards: function(level) {
-    var numberOfCards = level + 2,
-      cards = {};
+  generateCards: function (level) {
+    var numberOfCards = level + 2;
 
-    var possibleCards = [
-      'One', 'Two', 'Three', 'Four', 'Five', 'Six'
-    ];
+    var possibleCards = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
+    
+    var cards = {};
 
     for(var i = 0; i < numberOfCards; i++) {
       var j = i;
@@ -32,18 +38,24 @@ var Board = React.createClass({
       }
     }
 
-    return cards;
+    return this.randomiseCards(cards);
 
   },
   
-  getInitialState: function() {
-    return ({
-      level: this.props.level,
-      cards: this.createCards(this.props.level)
-    })
+  randomiseCards: function (cards) {
+    var length = Object.keys(cards).length;
+    
+    for (var n = 0; n < length - 1; n++) {
+        var k = n + Math.floor(Math.random() * (length - n));
+        var temp = cards[k];
+        cards[k] = cards[n];
+        cards[n] = temp;
+    }
+    
+    return cards;
   },
-
-  checkCards: function(chosenCard){
+  
+  compareCards: function(chosenCard){
     
     var cards = this.state.cards;
 
@@ -72,7 +84,7 @@ var Board = React.createClass({
 
         var checkIfMatched = false;
 
-        var turnedCard = this.checkCards(chosenCard);
+        var turnedCard = this.compareCards(chosenCard);
 
         var updatedCards = Object.assign({}, this.state.cards);
         updatedCards[chosenCard.id].isTurned = true;
@@ -105,8 +117,8 @@ var Board = React.createClass({
   
   componentWillReceiveProps: function(nextProps) {
     if (this.props.level != nextProps.level) {
-        this.setState({
-        cards: this.createCards(nextProps.level)
+      this.setState({
+        cards: this.generateCards(nextProps.level)
       });
     }
   },
